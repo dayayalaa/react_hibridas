@@ -1,61 +1,34 @@
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-
-import Card from './Card';
-import User from './User';
-
-import { useState, useEffect } from 'react';
-
-
-
+import React from 'react';
+import './App.css';
+import Card from './Card'; 
 
 function App() {
-  const [ users, setUsers ]   = useState([]);
+    const descripcion = "Viajar a Kioto es descubrir la esencia de Japón, con templos como Kinkaku-ji y los senderos de torii del Santuario Fushimi Inari. Su rica cultura, gastronomía y tradiciones te dejarán una experiencia inolvidable.";
 
-  useEffect(   () => {
-    const getUsers = async () => {
-      const endPoint = 'http://127.0.0.1:3000/api/users';
-      const resp =  await fetch(endPoint);
-      const users = await resp.json();
-      setUsers( users.data);
-      console.log(users);
-    }
-  
-    getUsers();
-  }, [])
-  
-  let nombre = "José";
-  let edad = 21;
-  const cursos = ['HTML', 'JS', 'React'];
-  let titulo = <h2> Esto es un título</h2>;
-  const userData = {
-    name: 'Juan',
-    email: 'juan@mail.com'
-  }
-  return (
-    <div>
-      <h1> Aplicaciones Híbridas</h1>
-      {
-        users.map( user => (
-          <User  
-            name={user.name}
-            email={ user.email }
-          />
-        ))
-      }
+    const productos = [
+        { id: 1, nombre: 'Templo Kinkaku-ji', precio: '24USD' },
+        { id: 2, nombre: 'Santuario Fushimi Inari Taisha', precio: 'Gratuito' },
+        { id: 3, nombre: 'Templo Kiyomizu-dera', precio: '40USD' },
+    ];
 
+    return (
+        <div className="App">
+            <header className="App-header">
+                <h1>Mi viaje a Kioto</h1>
 
-      <img src="" alt="" /> 
-      { titulo}
-      <Card texto="Termo" precio={40000} />
-      <Card texto="Mate" precio={5000} />
+                <p>{descripcion}</p>
 
-      <p className='verde'> Hola { nombre }</p>
-      <p> {  edad + 2  }</p>
-      <p> {  cursos[2]  } </p>
-    </div>
-  )
+                <img src="/kioto.jpg" alt="Ejemplo" width="300" />
+
+                <h2>Lista de excursiones</h2>
+                <div className="product-list">
+                    {productos.map(producto => (
+                        <Card key={producto.id} texto={producto.nombre} precio={producto.precio} />
+                    ))}
+                </div>
+            </header>
+        </div>
+    );
 }
 
-export default App
+export default App;
