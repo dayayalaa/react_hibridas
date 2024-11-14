@@ -2,56 +2,80 @@
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  color: rgb(36, 35, 35);
+  background-color: #e6f0e9;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 320px;
+  justify-content: center; 
   min-height: 100vh;
+  background-color: #f3f4f6;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
+.login-container {
+  background-color: #fff;
   border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-title {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #474948;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login-label {
+  font-size: 1rem;
+  color: #406345;
+  margin-bottom: 5px;
+}
+
+.login-input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.login-input:focus {
+  border-color: #2a4e3b;
+  outline: none;
+}
+
+.login-button {
+  background-color: #3C4A28;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  transition: border-color 0.25s;
+  width: 100%;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+.login-button:hover {
+  background-color: #2b3d1a;
 }
 
 @media (prefers-color-scheme: light) {
@@ -67,15 +91,115 @@ button:focus-visible {
   }
 }
 
-.App-header{
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  justify-content: center;
-  align-items: center;
+.m-2 {
+  margin: 20px;
 }
 
-.product-list{
-  display: flex;
-  gap: 10px;
+
+
+
+/*Contacto */
+/* Contenedor principal de la sección de contacto */
+.contact-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
+
+.contact-container h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Estilos para la información de contacto */
+.contact-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+/* Estilos de cada ítem de información */
+.info-item {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+}
+
+.info-item:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.info-item h3 {
+  font-size: 1.3rem;
+  color: #333;
+  font-weight: bold;
+}
+
+.info-item p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-top: 0.5rem;
+}
+
+/* Estilos de los enlaces de redes sociales */
+.social-links {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+.social-links li {
+  font-size: 1.1rem;
+}
+
+.social-links a {
+  color: #487c5a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+  color: #2b3d1a;
+}
+
+.map-container {
+  margin-top: 3rem;
+}
+
+.map-container iframe {
+  width: 100%;
+  max-width: 800px;
+  height: 400px;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .contact-info {
+    gap: 1rem;
+  }
+
+  .info-item {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .social-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
