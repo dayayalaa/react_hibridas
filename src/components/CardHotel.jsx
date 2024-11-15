@@ -3,13 +3,17 @@ import '../app.css';
 
 const CardHotel = ({ hotel }) => {
     return (
-      <div className="card-hotel">
-        <img src={hotel.imagen} alt={`Imagen de ${hotel.nombre}`} className="w-full h-40 object-cover rounded-lg" />
-        <h4>{hotel.nombre}</h4>
-        <p>{hotel.precio}</p>
+      <div className="card-Destino">
+        <img 
+          src={hotel.habitaciones?.[0]?.imgHabitacion || 'ruta-imagen-default.jpg'} 
+          alt="Imagen del hotel" 
+          className="w-full h-40 object-cover rounded-md mb-4" 
+        />
+        <h4>{hotel.nombre || 'Nombre del Hotel'}</h4>
+        <p>{hotel.descripcion || 'Descripción no disponible'}</p>
+        <p>{hotel.precio ? `$${hotel.precio}` : 'Precio no disponible'}</p>
       </div>
     );
-  };
-  
-  export default CardHotel;
-  
+};
+
+export default CardHotel;

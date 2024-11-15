@@ -33,7 +33,7 @@ const Home = () => {
   
   const getHoteles = async () => {
     try {
-      const resp = await fetch('http://localhost:3000/arcana/hoteles/precio/economico');
+      const resp = await fetch('http://localhost:3000/arcana/hoteles');
       const data = await resp.json();
       setHoteles(data);
     } catch (error) {
