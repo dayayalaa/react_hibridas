@@ -1,7 +1,9 @@
 import { useState } from "react";
 
 const Registro = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ nombre: '', email: '', contrasenia: '' });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -10,48 +12,80 @@ const Registro = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError('');
+  
+    if (!formData.nombre || !formData.email || !formData.contrasenia) {
+      setError('Por favor, completa todos los campos');
+      setLoading(false);
+      return;
+    }
+  
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!emailPattern.test(formData.email)) {
+      setError('Por favor ingresa un correo electrónico válido');
+      setLoading(false);
+      return;
+    }
+  
+    if (formData.contrasenia.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
+      setLoading(false);
+      return;
+    }
+  
     try {
-      console.log('Enviando Formulario');
-      console.log(formData);
-      const endPoint = 'http://127.0.0.1:3000/api/users/';
+      const endPoint = 'https://back-tesis-lovat.vercel.app/arcana/usuarios/';
       const config = {
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         method: 'POST',
-        body: JSON.stringify(formData)
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          contrasenia: formData.contrasenia,  
+        }),
       };
+  
       const response = await fetch(endPoint, config);
-
+  
       if (!response.ok) {
-        console.error(response);
+        const errorMessage = (await response.json()).msg || 'Error al registrar usuario';
+        throw new Error(errorMessage);
       }
-
+  
       const data = await response.json();
-      console.log(data);
-      setFormData({
-        name: '',
-        email: '',
-        password: ''
-      });
-
+      console.log('Registro exitoso:', data);
+  
+      if (data.token) {
+        localStorage.setItem('token', data.token); 
+        alert('Registro exitoso. Por favor, inicia sesión.');
+      }
+  
+      setFormData({ nombre: '', email: '', contrasenia: '' });
     } catch (error) {
-      console.log(error);
-      alert('Error del Servidor');
+      console.error('Error del servidor:', error.message);
+      setError(error.message || 'Error del servidor');
+    } finally {
+      setLoading(false);
     }
   };
+  
 
   return (
     <div className="login-container">
       <h2 className="login-title">Registro</h2>
+      {error && <p className="error-message">{error}</p>}
       <form onSubmit={handleSubmit} className="login-form">
-        <label htmlFor="name" className="login-label">Nombre</label>
+        <label htmlFor="nombre" className="login-label">Nombre</label>
         <input
           type="text"
-          name="name"
+          name="nombre"
           onChange={handleChange}
-          value={formData.name}
+          value={formData.nombre}
           className="login-input"
+          required
         />
 
         <label htmlFor="email" className="login-label">Email</label>
@@ -61,18 +95,22 @@ const Registro = () => {
           onChange={handleChange}
           value={formData.email}
           className="login-input"
+          required
         />
 
-        <label htmlFor="password" className="login-label">Contraseña</label>
+        <label htmlFor="contrasenia" className="login-label">Contraseña</label>
         <input
-          type="password"
-          name="password"
+          type="password"  
+          name="contrasenia"
           onChange={handleChange}
-          value={formData.password}
+          value={formData.contrasenia}
           className="login-input"
+          required
         />
 
-        <button type="submit" className="login-button">Registrarme</button>
+        <button type="submit" className="login-button" disabled={loading}>
+          {loading ? 'Registrando...' : 'Registrarme'}
+        </button>
       </form>
     </div>
   );

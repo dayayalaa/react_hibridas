@@ -186,6 +186,54 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+.cont_card{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.card {
+  width: 350px;
+  height: 520px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  background-color: #fff;
+  justify-content: space-between; 
+  margin-bottom: 20px; 
+
+}
+
+.session_usuario{
+  margin-bottom: 20px;
+}
+
+.card img{
+  width: 100%;
+  height: auto;
+}
+
+.cont_categoria{
+  display: flex;
+  justify-content: space-around;
+  justify-items: center;
+}
+
+.select{
+  height: 50px;
+  margin-top: 10px;
+  padding: 2px 15px;
+  border: 1px solid #2b3d1a;
+  background-color: #fff;
+  color: #333;
+  border-radius: 5px;
+}
+
 /* Responsividad */
 @media (max-width: 768px) {
   .contact-info {

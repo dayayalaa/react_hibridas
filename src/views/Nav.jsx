@@ -1,9 +1,9 @@
 const Nav = () =>{
-    return (
-        <>
-            
-        </>
-    )
+  return (
+      <>
+          
+      </>
+  )
 }
 
 export default Login;
