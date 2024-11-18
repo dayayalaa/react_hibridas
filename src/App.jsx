@@ -8,10 +8,10 @@ import DetallesHotel from './views/DetallesHotel'
 import Login from './views/Login'
 import Registro from './views/Registro'
 import NotFound from './views/NotFound'
-import VistaAdmin from './views/VistaAdmin'
-// import Lugares from './views/Lugares';
-// import Hoteles from './views/Hoteles';
-// import Usuarios from './views/Usuarios';
+import VistaAdmin from './views/admin/VistaAdmin'
+import Lugares from './views/admin/Lugares';
+import Usuarios from './views/admin/Usuarios';
+import EditarLugar from './views/admin/EditarLugar';
 
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -106,9 +106,9 @@ function App() {
         {user?.rols === 'admin' && (
           <Routes>
             <Route path="/admin" element={<VistaAdmin />} />
-            {/* <Route path="/admin/lugares" element={<Lugares />} />
-            <Route path="/admin/hoteles" element={<Hoteles />} />
-            <Route path="/admin/usuarios" element={<Usuarios />} /> */}
+            <Route path="/admin/lugares" element={<Lugares />} />
+            <Route path="/admin/usuarios" element={<Usuarios />} />
+            <Route path="/admin/editarLugar/:id" element={<EditarLugar />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         )}

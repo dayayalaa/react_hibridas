@@ -15,12 +15,6 @@ const VistaAdmin = () => {
         </li>
         
         <li>
-          <NavLink to="/admin/hoteles" className="nav-link">
-            Hoteles
-          </NavLink>
-        </li>
-        
-        <li>
           <NavLink to="/admin/usuarios" className="nav-link">
             Usuarios
           </NavLink>
