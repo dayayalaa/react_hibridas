@@ -12,6 +12,7 @@ import VistaAdmin from './views/admin/VistaAdmin'
 import Lugares from './views/admin/Lugares';
 import Usuarios from './views/admin/Usuarios';
 import EditarLugar from './views/admin/EditarLugar';
+import AgregarLugar from './views/admin/AgregarLugar';
 
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -107,8 +108,9 @@ function App() {
           <Routes>
             <Route path="/admin" element={<VistaAdmin />} />
             <Route path="/admin/lugares" element={<Lugares />} />
-            <Route path="/admin/usuarios" element={<Usuarios />} />
             <Route path="/admin/editarLugar/:id" element={<EditarLugar />} />
+            <Route path="/admin/agregarLugar" element={<AgregarLugar />} />
+            <Route path="/admin/usuarios" element={<Usuarios />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         )}
