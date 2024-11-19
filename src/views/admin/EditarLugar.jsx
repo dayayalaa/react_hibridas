@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom"; 
 
+
+
 const provinciasArgentinas = [
   'Buenos Aires',
   'Córdoba',
@@ -133,13 +135,13 @@ const EditarLugar = () => {
   };
 
   return (
-    <div>
+    <div className="formulario-container">
       <h2>Editar Lugar</h2>
 
-      {mensaje && <p>{mensaje}</p>}
+      {mensaje && <p className="mensaje-error">{mensaje}</p>}
 
       <form onSubmit={handleSubmit}>
-        <div>
+        <div className="form-group">
           <label htmlFor="nombre">Nombre</label>
           <input
             type="text"
@@ -151,7 +153,7 @@ const EditarLugar = () => {
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="descripcion">Descripción</label>
           <textarea
             id="descripcion"
@@ -162,7 +164,7 @@ const EditarLugar = () => {
           />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="ubicacion">Ubicación</label>
           <select
             id="ubicacion"
@@ -181,20 +183,6 @@ const EditarLugar = () => {
         </div>
 
         <div className="form-group">
-          <label>Categoría:</label>
-          <select 
-            name="categoria" 
-            value={formData.categoria} 
-            onChange={handleChange} 
-            required
-          >
-            <option value="">Seleccionar</option>
-            <option value="arcana">Arcana</option>
-            <option value="popular">Popular</option>
-          </select>
-        </div>
-
-        <div>
           <label htmlFor="imagen">Imagen</label>
           <input
             type="file"
@@ -204,20 +192,9 @@ const EditarLugar = () => {
           />
           {imagenPrevia && (
             <div>
-              <img src={imagenPrevia} alt="Imagen Previa" width="100" />
+              <img src={imagenPrevia} alt="Imagen Previa" />
             </div>
           )}
-        </div>
-
-        <div>
-          <label htmlFor="video">Video (opcional)</label>
-          <input
-            type="file"
-            id="video"
-            name="video"
-            value={formData.video}
-            onChange={handleChange}
-          />
         </div>
 
         <button type="submit">Actualizar Lugar</button>
@@ -225,5 +202,6 @@ const EditarLugar = () => {
     </div>
   );
 };
+
 
 export default EditarLugar;

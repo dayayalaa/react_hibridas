@@ -1,0 +1,88 @@
+/* estilos.css */
+.formulario-container {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 2rem;
+    background-color: #ffffff; /* Fondo blanco */
+    border-radius: 15px; /* Bordes suaves */
+    box-shadow: 0 6px 50px rgba(0, 0, 0, 0.3); /* Sombra envolvente */
+    border: 1px solid #e0e0e0; /* Bordes sutiles */
+  }
+  
+  .formulario-container h2 {
+    text-align: center;
+    color: #3C4A28;
+    font-family: 'Sitka', serif;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .formulario-container .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .formulario-container label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #234b3c;
+  }
+  
+  .formulario-container input[type="text"],
+  .formulario-container input[type="file"],
+  .formulario-container textarea,
+  .formulario-container select {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #d1d5db; /* Gris claro */
+    border-radius: 8px;
+    font-size: 1rem;
+    background-color: #f7fafc; /* Gris tenue */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .formulario-container input[type="text"]:focus,
+  .formulario-container input[type="file"]:focus,
+  .formulario-container textarea:focus,
+  .formulario-container select:focus {
+    border-color: #3C4A28; /* Resaltar en foco */
+    box-shadow: 0 0 5px rgba(60, 74, 40, 0.5); /* Luz tenue */
+    outline: none;
+  }
+  
+  .formulario-container textarea {
+    height: 120px;
+    resize: vertical;
+  }
+  
+  .formulario-container button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #3C4A28;
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .formulario-container button:hover {
+    background-color: #234b3c; /* Oscurecer al pasar el cursor */
+  }
+  
+  .formulario-container img {
+    display: block;
+    margin: 1rem auto;
+    max-width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .formulario-container .mensaje-error {
+    text-align: center;
+    color: #e30755;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }

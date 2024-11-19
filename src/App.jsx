@@ -101,7 +101,7 @@ function App() {
           <Route path="/detallesHotel/:id" element={<DetallesHotel />} />
           <Route path="/registro" element={<Registro />} />
           <Route path="/login" element={<Login />} />
-          <Route path="*" element={<NotFound />} />
+          
         </Routes>
 
         {user?.rols === 'admin' && (
@@ -111,7 +111,7 @@ function App() {
             <Route path="/admin/editarLugar/:id" element={<EditarLugar />} />
             <Route path="/admin/agregarLugar" element={<AgregarLugar />} />
             <Route path="/admin/usuarios" element={<Usuarios />} />
-            <Route path="*" element={<NotFound />} />
+           
           </Routes>
         )}
       </main>
