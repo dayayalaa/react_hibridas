@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from "react-router-dom"; 
 
 
-
 const provinciasArgentinas = [
   'Buenos Aires',
   'Córdoba',

@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 
 function Card ( props){
-    //const precio = props.precio;
     return (
         <div className="card">
             <h4> { props.texto} </h4>

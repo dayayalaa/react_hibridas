@@ -1,6 +1,4 @@
 import './App.css'
-
-// Importo las vistas
 import Home from './views/Home'
 import Contact from './views/Contact'
 import DetallesLugar from './views/DetallesLugar'

@@ -105,7 +105,7 @@ const Home = () => {
       <h2 className="home-title">Bienvenido a Arcana</h2>
       <p className="home-description">Explora destinos, vuelos y hoteles con la API de Arcana.</p>
       <Session usuario={usuario} handleLogout={handleLogout} />
-      <hr className="home-divider" />
+      <hr className="home-divider"/>
 
       <section className='cont_categoria'>
         <h2>Seleccionar categoria</h2>
