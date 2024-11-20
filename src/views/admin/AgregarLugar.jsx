@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import '../../index.css';
 
 const provinciasArgentinas = [
-  'Buenos Aires', 'Catamarca', 'Chaco', 'Chubut', 'CABA', 'Corrientes', 'Entre Ríos',
-  'Formosa', 'Jujuy', 'La Pampa', 'La Rioja', 'Mendoza', 'Misiones', 'Neuquén', 'Río Negro',
-  'Salta', 'San Juan', 'San Luis', 'Santa Cruz', 'Santa Fe', 'Santiago del Estero', 'Tierra del Fuego',
-  'Tucumán'
+  'Buenos Aires', 'Córdoba', 'Chubut', 'Neuquén', 'Misiones', 'Mendoza',
+  'San Juan', 'Salta', 'San Luis', 'Santa Cruz', 'Chaco', 'Santa Fe',
+  'Río Negro', 'Tucumán', 'La Pampa', 'La Rioja', 'Santiago del Estero',
+  'Formosa', 'Corrientes', 'Entre Ríos', 'Catamarca', 'Jujuy', 'Tierra del Fuego'
 ];
 
 const AgregarLugar = () => {
@@ -15,7 +16,7 @@ const AgregarLugar = () => {
     ubicacion: '',
     categoria: '',
     imagen: null,
-    video: null,
+    video: '',
   });
   const [imagenPrevia, setImagenPrevia] = useState(null);
   const [mensaje, setMensaje] = useState('');
@@ -32,11 +33,11 @@ const AgregarLugar = () => {
 
   const handleImagenChange = (e) => {
     const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      imagen: file,
-    }));
     if (file) {
+      setFormData((prevData) => ({
+        ...prevData,
+        imagen: file,
+      }));
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagenPrevia(reader.result);
@@ -49,7 +50,7 @@ const AgregarLugar = () => {
     const file = e.target.files[0];
     setFormData((prevData) => ({
       ...prevData,
-      video: file,
+      video: file ? file : e.target.value,
     }));
   };
 
@@ -62,7 +63,6 @@ const AgregarLugar = () => {
     }
 
     console.log('Datos a enviar:', formData); 
-
     const nuevoLugar = new FormData();
     nuevoLugar.append('nombre', formData.nombre);
     nuevoLugar.append('descripcion', formData.descripcion);
@@ -70,6 +70,11 @@ const AgregarLugar = () => {
     nuevoLugar.append('categoria', formData.categoria);
     if (formData.imagen) nuevoLugar.append('imagen', formData.imagen);
     if (formData.video) nuevoLugar.append('video', formData.video);
+
+
+    for (let [key, value] of nuevoLugar.entries()) {
+      console.log(key, value);
+    }
 
     try {
       setCargando(true);
@@ -79,7 +84,7 @@ const AgregarLugar = () => {
       });
 
       const data = await response.json();
-      console.log(data); 
+      console.log(data);
 
       if (response.ok) {
         setMensaje('Lugar creado exitosamente');
@@ -95,11 +100,12 @@ const AgregarLugar = () => {
     }
   };
 
+
   return (
-    <div>
+    <div className="formulario-container">
       <h2>Agregar Lugar</h2>
-      {mensaje && <p>{mensaje}</p>}
-      <form onSubmit={handleSubmit}>
+      {mensaje && <p className="mensaje-error">{mensaje}</p>}
+      <form onSubmit={handleSubmit} className="formulario">
         <div>
           <label htmlFor="nombre">Nombre</label>
           <input
@@ -112,17 +118,18 @@ const AgregarLugar = () => {
           />
         </div>
 
-        <div>
-          <label htmlFor="descripcion">Descripción</label>
+        <div className="form-group">
           <textarea
             id="descripcion"
             name="descripcion"
             value={formData.descripcion}
             onChange={handleChange}
-          ></textarea>
+            rows="4"
+            required
+          />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="ubicacion">Ubicación</label>
           <select
             id="ubicacion"
@@ -131,32 +138,26 @@ const AgregarLugar = () => {
             onChange={handleChange}
             required
           >
-            <option value="">Seleccione una provincia</option>
-            {provinciasArgentinas.map((provincia, index) => (
-              <option key={index} value={provincia}>
-                {provincia}
-              </option>
+            <option value="" disabled>Seleccionar provincia</option>
+            {provinciasArgentinas.map((provincia) => (
+              <option key={provincia} value={provincia}>{provincia}</option>
             ))}
           </select>
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="categoria">Categoría</label>
-          <select
+          <input
+            type="text"
             id="categoria"
             name="categoria"
             value={formData.categoria}
             onChange={handleChange}
             required
-          >
-            <option value="">Seleccionar</option>
-            <option value="arcana">Arcana</option>
-            <option value="historia">Historia</option>
-            <option value="naturaleza">Naturaleza</option>
-          </select>
+          />
         </div>
 
-        <div>
+        <div className="form-group">
           <label htmlFor="imagen">Imagen</label>
           <input
             type="file"
@@ -165,21 +166,21 @@ const AgregarLugar = () => {
             accept="image/*"
             onChange={handleImagenChange}
           />
-          {imagenPrevia && <img src={imagenPrevia} alt="Vista previa" />}
+          {imagenPrevia && <img src={imagenPrevia} alt="Previsualización" className="imagen-previa" />}
         </div>
 
-        <div>
-          <label htmlFor="video">Video</label>
+        <div className="form-group">
+          <label htmlFor="video">Video (opcional)</label>
           <input
-            type="file"
+            type="url"
             id="video"
             name="video"
-            accept="video/*"
+            value={formData.video}
             onChange={handleVideoChange}
           />
         </div>
 
-        <button type="submit" disabled={cargando}>
+        <button type="submit" className="boton-submit" disabled={cargando}>
           {cargando ? 'Cargando...' : 'Agregar Lugar'}
         </button>
       </form>

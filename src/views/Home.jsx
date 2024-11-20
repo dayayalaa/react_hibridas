@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import CardHotel from '../components/CardHotel';  
 import CardDestino from '../components/CardDetino'; 
 import Session from '../components/session';
+import Cargando from '../components/Cargando';
 import '../App.css'; 
 
 const Home = () => {
@@ -33,8 +34,7 @@ const Home = () => {
       setCargandoDestinos(false);
     }
   };
-  
-  // Obtener los hoteles disponibles
+
   const getHoteles = async () => {
     try {
       const resp = await fetch('https://back-tesis-lovat.vercel.app/arcana/hoteles');
@@ -123,7 +123,8 @@ const Home = () => {
   <section className="section">
     <h3 className="section-title">Destinos Populares</h3>
     {cargandoDestinos ? (
-      <div className="loading-indicator">Cargando destinos...</div>
+      
+      <Cargando className="loading-indicator"/>
     ) : errorMensaje ? (
       <p className="error-message">{errorMensaje}</p>
     ) : (
@@ -140,7 +141,7 @@ const Home = () => {
   <section className="section">
     <h3 className="section-title">Destinos Arcana</h3>
     {cargandoDestinos ? (
-      <div className="loading-indicator">Cargando destinos...</div>
+      <Cargando className="loading-indicator"/>
     ) : errorMensaje ? (
       <p className="error-message">{errorMensaje}</p>
     ) : (
@@ -157,7 +158,7 @@ const Home = () => {
       <section className="section">
         <h3 className="section-title">Hoteles Disponibles</h3>
         {cargandoHoteles ? (
-          <div className="loading-indicator">Cargando hoteles...</div>
+        <Cargando className="loading-indicator"/>
         ) : errorMensaje ? (
           <p className="error-message">{errorMensaje}</p>
         ) : hoteles.length > 0 ? (

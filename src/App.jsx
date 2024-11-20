@@ -93,22 +93,22 @@ function App() {
 
       <main>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/detalles/:id" element={<DetallesLugar />} />
-          <Route path="/detallesHotel/:id" element={<DetallesHotel />} />
-          <Route path="/registro" element={<Registro />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/"                   element={<Home />} />
+          <Route path="/contact"            element={<Contact />} />
+          <Route path="/detalles/:id"       element={<DetallesLugar />} />
+          <Route path="/detallesHotel/:id"  element={<DetallesHotel />} />
+          <Route path="/registro"           element={<Registro />} />
+          <Route path="/login"              element={<Login />} />
           
         </Routes>
 
         {user?.rols === 'admin' && (
           <Routes>
-            <Route path="/admin" element={<VistaAdmin />} />
-            <Route path="/admin/lugares" element={<Lugares />} />
-            <Route path="/admin/editarLugar/:id" element={<EditarLugar />} />
-            <Route path="/admin/agregarLugar" element={<AgregarLugar />} />
-            <Route path="/admin/usuarios" element={<Usuarios />} />
+            <Route path="/admin"                  element={<VistaAdmin />} />
+            <Route path="/admin/lugares"          element={<Lugares />} />
+            <Route path="/admin/editarLugar/:id"  element={<EditarLugar />} />
+            <Route path="/admin/agregarLugar"     element={<AgregarLugar />} />
+            <Route path="/admin/usuarios"         element={<Usuarios />} />
            
           </Routes>
         )}
