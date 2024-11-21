@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../../index.css';
+import axios from 'axios';
 
 const provinciasArgentinas = [
   'Buenos Aires', 'Córdoba', 'Chubut', 'Neuquén', 'Misiones', 'Mendoza',
@@ -16,95 +15,87 @@ const AgregarLugar = () => {
     ubicacion: '',
     categoria: '',
     imagen: null,
-    video: '',
+    video: null
   });
-  const [imagenPrevia, setImagenPrevia] = useState(null);
-  const [mensaje, setMensaje] = useState('');
   const [cargando, setCargando] = useState(false);
-  const navigate = useNavigate();
+  const [mensaje, setMensaje] = useState('');
+  const [error, setError] = useState('');
 
+  // Función para manejar cambios en los campos del formulario
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
-  const handleImagenChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setFormData((prevData) => ({
-        ...prevData,
-        imagen: file,
-      }));
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagenPrevia(reader.result);
-      };
-      reader.readAsDataURL(file);
+    const { name, value, files } = e.target;
+    if (files) {
+      setFormData({
+        ...formData,
+        [name]: files[0],  // Actualizamos el archivo (imagen o video)
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,  // Actualizamos el valor de texto
+      });
     }
   };
 
-  const handleVideoChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevData) => ({
-      ...prevData,
-      video: file ? file : e.target.value,
-    }));
-  };
-
+  // Función para manejar el envío del formulario (Crear un nuevo lugar)
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setCargando(true);
+    setError('');
+    setMensaje('');
+  
     if (!formData.nombre || !formData.ubicacion) {
-      setMensaje('Nombre y ubicación son obligatorios');
+      setMensaje('Faltan parámetros obligatorios: nombre y ubicación');
+      setCargando(false);
       return;
     }
-
-    console.log('Datos a enviar:', formData); 
-    const nuevoLugar = new FormData();
-    nuevoLugar.append('nombre', formData.nombre);
-    nuevoLugar.append('descripcion', formData.descripcion);
-    nuevoLugar.append('ubicacion', formData.ubicacion);
-    nuevoLugar.append('categoria', formData.categoria);
-    if (formData.imagen) nuevoLugar.append('imagen', formData.imagen);
-    if (formData.video) nuevoLugar.append('video', formData.video);
-
-
-    for (let [key, value] of nuevoLugar.entries()) {
-      console.log(key, value);
-    }
-
+  
     try {
-      setCargando(true);
+      const formDataToSend = new FormData();
+      formDataToSend.append('nombre', formData.nombre);
+      formDataToSend.append('descripcion', formData.descripcion);
+      formDataToSend.append('ubicacion', formData.ubicacion);
+      formDataToSend.append('categoria', formData.categoria);
+      
+      // Solo añadimos los archivos si están presentes
+      if (formData.imagen) formDataToSend.append('imagen', formData.imagen);
+      if (formData.video) formDataToSend.append('video', formData.video);
+  
       const response = await fetch('https://back-tesis-lovat.vercel.app/arcana/lugares', {
         method: 'POST',
-        body: nuevoLugar,
+        body: formDataToSend,
       });
-
-      const data = await response.json();
-      console.log(data);
-
-      if (response.ok) {
-        setMensaje('Lugar creado exitosamente');
-        navigate('/admin/lugares');
-      } else {
-        setMensaje(data.msg || 'Error al crear el lugar');
+  
+      if (!response.ok) {
+        const errorResponse = await response.json();
+        setError(errorResponse.msg || 'Error al crear el lugar');
+        throw new Error(errorResponse.msg || 'Error al crear el lugar');
       }
+  
+      // Si todo sale bien
+      setFormData({
+        nombre: '',
+        descripcion: '',
+        ubicacion: '',
+        categoria: '',
+        imagen: null,
+        video: null
+      });
+      setMensaje('Lugar creado con éxito');
     } catch (error) {
-      setMensaje('Error de red. No se pudo crear el lugar');
-      console.error('Error al crear lugar:', error);
+      setError(error.message || 'Error del servidor');
     } finally {
       setCargando(false);
     }
   };
-
+  
 
   return (
     <div className="formulario-container">
       <h2>Agregar Lugar</h2>
       {mensaje && <p className="mensaje-error">{mensaje}</p>}
+      {error && <p className="mensaje-error">{error}</p>}
+
       <form onSubmit={handleSubmit} className="formulario">
         <div>
           <label htmlFor="nombre">Nombre</label>
@@ -119,13 +110,12 @@ const AgregarLugar = () => {
         </div>
 
         <div className="form-group">
+          <label htmlFor="descripcion">Descripción</label>
           <textarea
             id="descripcion"
             name="descripcion"
             value={formData.descripcion}
             onChange={handleChange}
-            rows="4"
-            required
           />
         </div>
 
@@ -147,14 +137,16 @@ const AgregarLugar = () => {
 
         <div className="form-group">
           <label htmlFor="categoria">Categoría</label>
-          <input
-            type="text"
+          <select
             id="categoria"
             name="categoria"
             value={formData.categoria}
             onChange={handleChange}
-            required
-          />
+          >
+            <option value="" disabled>Seleccionar categoría</option>
+            <option value="Arcana">Arcana</option>
+            <option value="Popular">Popular</option>
+          </select>
         </div>
 
         <div className="form-group">
@@ -164,24 +156,23 @@ const AgregarLugar = () => {
             id="imagen"
             name="imagen"
             accept="image/*"
-            onChange={handleImagenChange}
+            onChange={handleChange}
           />
-          {imagenPrevia && <img src={imagenPrevia} alt="Previsualización" className="imagen-previa" />}
         </div>
 
         <div className="form-group">
           <label htmlFor="video">Video (opcional)</label>
           <input
-            type="url"
+            type="file"
             id="video"
             name="video"
-            value={formData.video}
-            onChange={handleVideoChange}
+            accept="video/*"
+            onChange={handleChange}
           />
         </div>
 
         <button type="submit" className="boton-submit" disabled={cargando}>
-          {cargando ? 'Cargando...' : 'Agregar Lugar'}
+          {cargando ? 'Cargando...' : 'Crear Lugar'}
         </button>
       </form>
     </div>

@@ -22,8 +22,8 @@ const Home = () => {
       const resp = await fetch('https://back-tesis-lovat.vercel.app/arcana/lugares');
       const responseData = await resp.json();
       if (Array.isArray(responseData.data)) {
-        setDestinosPopulares(responseData.data.filter(destino => destino.categoria === 'popular'));
-        setDestinosArcana(responseData.data.filter(destino => destino.categoria === 'arcana'));
+        setDestinosPopulares(responseData.data.filter(destino => destino.categoria === 'Popular'));
+        setDestinosArcana(responseData.data.filter(destino => destino.categoria === 'Arcana'));
       } else {
         throw new Error('La respuesta no contiene un array en la propiedad "data"');
       }
@@ -64,9 +64,9 @@ const Home = () => {
     try {
       const resp = await fetch(`https://back-tesis-lovat.vercel.app/arcana/lugares/categoria/${categoria}`);
       const data = await resp.json();
-      if (categoria === 'popular') {
+      if (categoria === 'Popular') {
         setDestinosPopulares(data.data || []); 
-      } else if (categoria === 'arcana') {
+      } else if (categoria === 'Arcana') {
         setDestinosArcana(data.data || []); 
       }
     } catch (error) {
@@ -119,7 +119,7 @@ const Home = () => {
 
       <hr className="home-divider" />
 
-      {(categoriaSeleccionada === '' || categoriaSeleccionada === 'popular') && destinosPopulares.length > 0 && (
+      {(categoriaSeleccionada === '' || categoriaSeleccionada === 'Popular') && destinosPopulares.length > 0 && (
   <section className="section">
     <h3 className="section-title">Destinos Populares</h3>
     {cargandoDestinos ? (
@@ -137,7 +137,7 @@ const Home = () => {
   </section>
 )}
 
-{(categoriaSeleccionada === '' || categoriaSeleccionada === 'arcana') && destinosArcana.length > 0 && (
+{(categoriaSeleccionada === '' || categoriaSeleccionada === 'Arcana') && destinosArcana.length > 0 && (
   <section className="section">
     <h3 className="section-title">Destinos Arcana</h3>
     {cargandoDestinos ? (

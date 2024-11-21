@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 const NotFound = () =>{
     return (
         <>
-            <h2> NotFound </h2>
-            <p>Ups... parece que la Ruta no existe :c</p>
-            <Link to='/'> Regresar el Inicio </Link>
+            <h2>UPPS!!</h2>
+            <p>Parece que la Ruta no existe :c</p>
+            <Link to='/' className="card-button">
+            Regresar el Inicio
+        </Link>
         </>
     )
 }
