@@ -55,6 +55,7 @@ body {
   font-size: 1rem;
   width: 100%;
   box-sizing: border-box;
+  background-color: #7c7c7c;
 }
 
 .login-input:focus {
@@ -213,9 +214,11 @@ body {
   margin-bottom: 20px;
 }
 
-.card img{
+.card img {
   width: 100%;
-  height: auto;
+  height: 150px;
+  object-fit: cover; 
+  object-position: center;
 }
 
 .cont_categoria{

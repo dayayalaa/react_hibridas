@@ -64,6 +64,7 @@ nav ul {
 /* Imagen dentro de la tarjeta */
 .card-image {
   width: 100%;
+  height: auto;
   border-bottom: 1px solid #ddd;  
 }
 
@@ -134,6 +135,36 @@ nav ul {
   background-color: #2b3d1a;
 }
 
+.detalle-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detalle-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+
+h3 {
+  font-size: 2rem;
+  margin: 10px 0;
+}
+
+p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #333;
+}
+
+.categoria {
+  font-weight: bold;
+  color: #2f4730;
+}
 
 
 

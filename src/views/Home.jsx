@@ -9,6 +9,7 @@ import '../App.css';
 const Home = () => {
   const [destinosPopulares, setDestinosPopulares] = useState([]);
   const [destinosArcana, setDestinosArcana] = useState([]);
+  const [destinosSinCategoria, setDestinosSinCategoria] = useState([]);
   const [hoteles, setHoteles] = useState([]);
   const [errorMensaje, setErrorMensaje] = useState('');
   const [cargandoDestinos, setCargandoDestinos] = useState(true);
@@ -24,6 +25,7 @@ const Home = () => {
       if (Array.isArray(responseData.data)) {
         setDestinosPopulares(responseData.data.filter(destino => destino.categoria === 'Popular'));
         setDestinosArcana(responseData.data.filter(destino => destino.categoria === 'Arcana'));
+        setDestinosSinCategoria(responseData.data.filter(destino => destino.categoria === 'Sin categoria'));
       } else {
         throw new Error('La respuesta no contiene un array en la propiedad "data"');
       }
@@ -68,6 +70,10 @@ const Home = () => {
         setDestinosPopulares(data.data || []); 
       } else if (categoria === 'Arcana') {
         setDestinosArcana(data.data || []); 
+      } else if (categoria === 'Sin categoria') {
+        setDestinosArcana(data.data || []); 
+      }else {
+        setDestinosSinCategoria(data.data || []);
       }
     } catch (error) {
       setErrorMensaje('Error al obtener destinos por categoría.');
@@ -88,7 +94,6 @@ const Home = () => {
     window.location.reload();
   };
 
-  //  Obtener lugares
   const handleCategoriaChange = (e) => {
     setCategoriaSeleccionada(e.target.value);
     getCategoria(e.target.value); 
@@ -109,56 +114,72 @@ const Home = () => {
 
       <section className='cont_categoria'>
         <h2>Seleccionar categoria</h2>
-      <select value={categoriaSeleccionada} onChange={handleCategoriaChange} className='select'>
-        <option value="">Seleccionar categoría</option>
-        {categorias.map((categoria, index) => (
-          <option key={index} value={categoria}>{categoria}</option>
-        ))}
-      </select>
+        <select value={categoriaSeleccionada} onChange={handleCategoriaChange} className='select'>
+          <option value="">Seleccionar categoría</option>
+          {categorias.map((categoria, index) => (
+            <option key={index} value={categoria}>{categoria}</option>
+          ))}
+        </select>
       </section>
 
       <hr className="home-divider" />
 
       {(categoriaSeleccionada === '' || categoriaSeleccionada === 'Popular') && destinosPopulares.length > 0 && (
-  <section className="section">
-    <h3 className="section-title">Destinos Populares</h3>
-    {cargandoDestinos ? (
-      
-      <Cargando className="loading-indicator"/>
-    ) : errorMensaje ? (
-      <p className="error-message">{errorMensaje}</p>
-    ) : (
-      <div className="cont_card">
-        {destinosPopulares.map((destino, index) => (
-          <CardDestino key={index} destino={destino} />
-        ))}
-      </div>
-    )}
-  </section>
-)}
+        <section className="section">
+          <h3 className="section-title">Destinos Populares</h3>
+          {cargandoDestinos ? (
+            <Cargando className="loading-indicator"/>
+          ) : errorMensaje ? (
+            <p className="error-message">{errorMensaje}</p>
+          ) : (
+            <div className="cont_card">
+              {destinosPopulares.map((destino, index) => (
+                <CardDestino key={index} destino={destino} />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
 
-{(categoriaSeleccionada === '' || categoriaSeleccionada === 'Arcana') && destinosArcana.length > 0 && (
-  <section className="section">
-    <h3 className="section-title">Destinos Arcana</h3>
-    {cargandoDestinos ? (
-      <Cargando className="loading-indicator"/>
-    ) : errorMensaje ? (
-      <p className="error-message">{errorMensaje}</p>
-    ) : (
-      <div className="cont_card">
-        {destinosArcana.map((destino, index) => (
-          <CardDestino key={index} destino={destino} />
-        ))}
-      </div>
-    )}
-  </section>
-)}
- <hr className="home-divider" />
+      {(categoriaSeleccionada === '' || categoriaSeleccionada === 'Arcana') && destinosArcana.length > 0 && (
+        <section className="section">
+          <h3 className="section-title">Destinos Arcana</h3>
+          {cargandoDestinos ? (
+            <Cargando className="loading-indicator"/>
+          ) : errorMensaje ? (
+            <p className="error-message">{errorMensaje}</p>
+          ) : (
+            <div className="cont_card">
+              {destinosArcana.map((destino, index) => (
+                <CardDestino key={index} destino={destino} />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+
+{(categoriaSeleccionada === '' || categoriaSeleccionada === 'Sin categoria') && destinosSinCategoria.length > 0 && (
+        <section className="section">
+          <h3 className="section-title">Otros destinos</h3>
+          {cargandoDestinos ? (
+            <Cargando className="loading-indicator"/>
+          ) : errorMensaje ? (
+            <p className="error-message">{errorMensaje}</p>
+          ) : (
+            <div className="cont_card">
+              {destinosSinCategoria.map((destino, index) => (
+                <CardDestino key={index} destino={destino} />
+              ))}
+            </div>
+          )}
+        </section>
+      )}
+      <hr className="home-divider" />
 
       <section className="section">
         <h3 className="section-title">Hoteles Disponibles</h3>
         {cargandoHoteles ? (
-        <Cargando className="loading-indicator"/>
+          <Cargando className="loading-indicator"/>
         ) : errorMensaje ? (
           <p className="error-message">{errorMensaje}</p>
         ) : hoteles.length > 0 ? (

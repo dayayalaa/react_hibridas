@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import '../app.css';
 
 const DetallesLugar = () => {
     const { id } = useParams();
@@ -24,12 +25,14 @@ const DetallesLugar = () => {
     }
   
     return (
-      <div>
-        <h2>Detalle del lugar</h2>
+      <div className="detalle-container">
+        <div className="detalle-header">
+          <h2>Detalle del lugar</h2>
+        </div>
         <img className="card-image" src={lugar.imagen} alt={lugar.nombre} />
         <h3>{lugar.nombre}</h3>
         <p>{lugar.descripcion}</p>
-        <p>Categoria: {lugar.categoria}</p>
+        <p><span className="categoria">Categoria:</span> {lugar.categoria}</p>
       </div>
     );
   };
