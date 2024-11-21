@@ -6,7 +6,7 @@ const EditarUsuarios = () => {
   const { id } = useParams(); 
   const navigate = useNavigate();
 
-  const [usuario, setUsuario] = useState(null); 
+  const [usuario, setUsuario] = useState(null);
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(true); 
 
@@ -15,6 +15,7 @@ const EditarUsuarios = () => {
       try {
         const response = await axios.get(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`);
         if (response.status === 200) {
+          console.log('Usuario cargado:', response.data); 
           setUsuario(response.data);
         } else {
           setMensaje('Error al cargar los datos del usuario.');
@@ -26,11 +27,10 @@ const EditarUsuarios = () => {
         setLoading(false); 
       }
     };
-
+  
     fetchUsuario();
   }, [id]); 
-
-  const handleChange = (e) => {
+  const cambiUsuario = (e) => {
     const { name, value } = e.target;
     setUsuario((prevData) => ({
       ...prevData,
@@ -38,7 +38,7 @@ const EditarUsuarios = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
+  const enviar = async (e) => {
     e.preventDefault();
 
     try {
@@ -59,9 +59,12 @@ const EditarUsuarios = () => {
     return <p>Cargando usuario...</p>;
   }
 
+
   if (!usuario) {
     return <p>No se pudo cargar el usuario.</p>;
   }
+
+  console.log('usuario:', usuario); 
 
   return (
     <div className="formulario-container">
@@ -69,15 +72,15 @@ const EditarUsuarios = () => {
 
       {mensaje && <p className="error-message">{mensaje}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={enviar}>
         <div className="form-group">
           <label htmlFor="nombre">Nombre:</label>
           <input
             type="text"
             id="nombre"
             name="nombre"
-            value={usuario.nombre || ''} 
-            onChange={handleChange}
+            value={usuario.nombre}
+            onChange={cambiUsuario}
             required
           />
         </div>
@@ -87,26 +90,26 @@ const EditarUsuarios = () => {
             type="email"
             id="email"
             name="email"
-            value={usuario.email || ''} 
-            onChange={handleChange}
+            value={usuario.email}
+            onChange={cambiUsuario}
             required
           />
         </div>
         <div className="form-group">
-  <label htmlFor="rols">Rol:</label>
-  <select
-    id="rols"
-    name="rols"
-    value={usuario.rols || ''} 
-    onChange={handleChange}
-    required
-  >
-    <option value="">Selecciona un rol</option>
-    <option value="user">Usuario</option>
-    <option value="admin">Administrador</option>
-    <option value="guia">Guía</option>
-  </select>
-</div>
+          <label htmlFor="rols">Rol:</label>
+          <select
+            id="rols"
+            name="rols"
+            value={usuario.rols}  
+            onChange={cambiUsuario}
+            required
+          >
+            <option value="">Selecciona un rol</option>
+            <option value="user">Usuario</option>
+            <option value="admin">Administrador</option>
+            <option value="guia">Guía</option>
+          </select>
+        </div>
 
         <div className="cont_boton">
           <button type="submit" className="save-button">Guardar Cambios</button>

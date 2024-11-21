@@ -23,7 +23,7 @@ const AgregarLugar = () => {
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
 
-  const handleChange = (e) => {
+  const manejarCambio  = (e) => {
     const { name, value, files } = e.target;
     if (files) {
       console.log('Imagen seleccionada:', files[0]); 
@@ -39,7 +39,7 @@ const AgregarLugar = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const enviar = async (e) => {
     e.preventDefault();
     setCargando(true);
     setError('');
@@ -92,7 +92,7 @@ const AgregarLugar = () => {
       {mensaje && <p className="mensaje-error">{mensaje}</p>}
       {error && <p className="mensaje-error">{error}</p>}
 
-      <form onSubmit={handleSubmit} className="formulario">
+      <form onSubmit={enviar} className="formulario">
         <div>
           <label htmlFor="nombre">nombre</label>
           <input
@@ -100,7 +100,7 @@ const AgregarLugar = () => {
             id="nombre"
             name="nombre"
             value={formData.nombre}
-            onChange={handleChange}
+            onChange={manejarCambio }
             required
           />
         </div>
@@ -111,7 +111,7 @@ const AgregarLugar = () => {
             id="descripcion"
             name="descripcion"
             value={formData.descripcion}
-            onChange={handleChange}
+            onChange={manejarCambio }
           />
         </div>
 
@@ -121,7 +121,7 @@ const AgregarLugar = () => {
             id="ubicacion"
             name="ubicacion"
             value={formData.ubicacion}
-            onChange={handleChange}
+            onChange={manejarCambio }
             required
           >
             <option value="" disabled>Seleccionar provincia</option>
@@ -137,7 +137,7 @@ const AgregarLugar = () => {
             id="categoria"
             name="categoria"
             value={formData.categoria}
-            onChange={handleChange}
+            onChange={manejarCambio }
           >
             <option value="" disabled>Seleccionar categoría</option>
             <option value="Arcana">Arcana</option>
@@ -152,7 +152,7 @@ const AgregarLugar = () => {
             id="imagen"
             name="imagen"
             accept="image/*"
-            onChange={handleChange}
+            onChange={manejarCambio }
           />
         </div>
 

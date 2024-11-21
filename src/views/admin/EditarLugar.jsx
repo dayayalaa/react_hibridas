@@ -75,7 +75,7 @@ const EditarLugar = () => {
     }
   }, [id]);
 
-  const handleChange = (e) => {
+  const manejarCambio  = (e) => {
     const { name, value, files } = e.target;
     if (files) {
       setLugar((prev) => ({ ...prev, [name]: files[0] }));
@@ -95,7 +95,7 @@ const EditarLugar = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const enviar = async (e) => {
     e.preventDefault();
 
     try {
@@ -122,7 +122,7 @@ const EditarLugar = () => {
 
       {mensaje && <p className="mensaje-error">{mensaje}</p>}
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={enviar}>
         <div className="form-group">
           <label htmlFor="nombre">Nombre</label>
           <input
@@ -130,7 +130,7 @@ const EditarLugar = () => {
             id="nombre"
             name="nombre"
             value={lugar.nombre}
-            onChange={handleChange}
+            onChange={manejarCambio }
             required
           />
         </div>
@@ -141,7 +141,7 @@ const EditarLugar = () => {
             id="descripcion"
             name="descripcion"
             value={lugar.descripcion}
-            onChange={handleChange}
+            onChange={manejarCambio }
             required
           />
         </div>
@@ -152,7 +152,7 @@ const EditarLugar = () => {
             id="ubicacion"
             name="ubicacion"
             value={lugar.ubicacion} 
-            onChange={handleChange}
+            onChange={manejarCambio }
             required
           >
             <option value="">Seleccione una provincia</option>
@@ -170,7 +170,7 @@ const EditarLugar = () => {
             id="categoria"
             name="categoria"
             value={lugar.categoria}
-            onChange={handleChange}
+            onChange={manejarCambio }
           >
             <option value="" disabled>Seleccionar categoría</option>
             <option value="Arcana">Arcana</option>
@@ -195,7 +195,7 @@ const EditarLugar = () => {
 
         <div className="cont_boton">
           <button type="submit" className="save-button">Actualizar Lugar</button>
-          <button type="button" className="cancel-button" onClick={() => navigate('/admin/usuarios')}>
+          <button type="button" className="cancel-button" onClick={() => navigate('/admin/lugares')}>
             Cancelar
           </button>
         </div>
