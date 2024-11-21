@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { NavLink } from 'react-router-dom';
 import Cargando from '../../components/Cargando';
 
 const VistaAdminUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [errorMensaje, setErrorMensaje] = useState('');
   const [cargandoUsuarios, setCargandoUsuarios] = useState(true);
+  const [mensajeConfirmacion, setMensajeConfirmacion] = useState('');
 
   useEffect(() => {
     const fetchUsuarios = async () => {
@@ -19,7 +21,7 @@ const VistaAdminUsuarios = () => {
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Error al obtener usuarios');
 
-        setUsuarios(data.data || []); // Ajusta según la estructura de la respuesta
+        setUsuarios(data.data || []); 
       } catch (error) {
         setErrorMensaje(error.message || 'Error al obtener usuarios.');
         console.error('Error:', error.message);
@@ -31,34 +33,77 @@ const VistaAdminUsuarios = () => {
     fetchUsuarios();
   }, []);
 
+  const handleEliminar = async (id) => {
+    if (!id) {
+      alert('ID inválido');
+      return;
+    }
+
+    const confirmacion = window.confirm('¿Estás seguro de que deseas eliminar este usuario?');
+    if (!confirmacion) return;
+
+    try {
+      const response = await fetch(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`, {
+        method: 'DELETE',
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setUsuarios((prevUsuarios) => prevUsuarios.filter((usuario) => usuario._id !== id));
+        setMensajeConfirmacion('Usuario eliminado correctamente');
+      } else {
+        setMensajeConfirmacion(data.message || 'Error al eliminar el usuario');
+      }
+    } catch (error) {
+      setMensajeConfirmacion('Error de red al eliminar el usuario');
+      console.error('Error al eliminar usuario:', error);
+    } finally {
+      setTimeout(() => {
+        setMensajeConfirmacion('');
+      }, 4000);
+    }
+  };
+
   return (
-    <div>
-      <h2>Usuarios</h2>
+    <div className="admin-container">
+      <header className="admin-header">
+        <h2>Usuarios</h2>
+      </header>
+      {mensajeConfirmacion && <p className="confirmation-message">{mensajeConfirmacion}</p>}
+
       {cargandoUsuarios ? (
-        <Cargando/>
+        <Cargando className="loading" />
       ) : errorMensaje ? (
-        <p>{errorMensaje}</p>
+        <div className="error-message">{errorMensaje}</div>
       ) : usuarios.length === 0 ? (
-        <p>No hay usuarios disponibles.</p>
+        <p className="empty-message">No hay usuarios disponibles.</p>
       ) : (
-        <table className="table table-spaced">
+        <table className="admin-table">
           <thead>
             <tr>
-              <th>Nombre</th>
-              <th>Email</th>
+              <th className="tdNombre">Nombre</th>
+              <th className="tdEmail">Email</th>
               <th>Rol</th>
-              <th>Acciones</th>
+              <th className="tdAcciones">Acciones</th>
             </tr>
           </thead>
           <tbody>
             {usuarios.map((usuario, index) => (
               <tr key={index}>
-                <td>{usuario.nombre}</td>
-                <td>{usuario.email}</td>
+                <td className="tdNombre">{usuario.nombre}</td>
+                <td className="tdEmail">{usuario.email}</td>
                 <td>{usuario.rols}</td>
-                <td className="cont_btn">
-                  <button className="opciones-button">Editar</button>
-                  <button className="eliminar-button">Eliminar</button>
+                <td className="action-buttons">
+                <NavLink to={`/admin/editarUsuario/${usuario._id}`} className="edit-button">
+                    Editar
+                  </NavLink>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleEliminar(usuario._id)}
+                  >
+                    Eliminar
+                  </button>
                 </td>
               </tr>
             ))}

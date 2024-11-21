@@ -285,6 +285,7 @@ body {
     color: #556b55;
   }
   
+  .formulario-container input[type="email"],
   .formulario-container input[type="text"],
   .formulario-container input[type="file"],
   .formulario-container textarea,
@@ -299,7 +300,8 @@ body {
     transition: all 0.3s ease;
   
   }
-  
+
+  .formulario-container input[type="email"]:focus,
   .formulario-container input[type="text"]:focus,
   .formulario-container input[type="file"]:focus,
   .formulario-container textarea:focus,

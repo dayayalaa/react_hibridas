@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const provinciasArgentinas = [
@@ -9,35 +10,35 @@ const provinciasArgentinas = [
 ];
 
 const AgregarLugar = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     nombre: '',
     descripcion: '',
     ubicacion: '',
     categoria: '',
-    imagen: null,
-    video: null
+    imagen: [], 
+    video: ''
   });
   const [cargando, setCargando] = useState(false);
   const [mensaje, setMensaje] = useState('');
   const [error, setError] = useState('');
 
-  // Función para manejar cambios en los campos del formulario
   const handleChange = (e) => {
     const { name, value, files } = e.target;
     if (files) {
-      setFormData({
-        ...formData,
-        [name]: files[0],  // Actualizamos el archivo (imagen o video)
+      console.log('Imagen seleccionada:', files[0]); 
+        setFormData({
+            ...formData,
+            [name]: files,
       });
     } else {
       setFormData({
         ...formData,
-        [name]: value,  // Actualizamos el valor de texto
+        [name]: value,  
       });
     }
   };
 
-  // Función para manejar el envío del formulario (Crear un nuevo lugar)
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCargando(true);
@@ -51,44 +52,39 @@ const AgregarLugar = () => {
     }
   
     try {
-      const formDataToSend = new FormData();
-      formDataToSend.append('nombre', formData.nombre);
-      formDataToSend.append('descripcion', formData.descripcion);
-      formDataToSend.append('ubicacion', formData.ubicacion);
-      formDataToSend.append('categoria', formData.categoria);
-      
-      // Solo añadimos los archivos si están presentes
-      if (formData.imagen) formDataToSend.append('imagen', formData.imagen);
-      if (formData.video) formDataToSend.append('video', formData.video);
+      const dataToSend = {
+        nombre: formData.nombre,
+        descripcion: formData.descripcion,
+        ubicacion: formData.ubicacion,
+        categoria: formData.categoria,
+        imagen: formData.imagen.length > 0 ? formData.imagen : [],
+        video: formData.video || ''
+      };
   
-      const response = await fetch('https://back-tesis-lovat.vercel.app/arcana/lugares', {
-        method: 'POST',
-        body: formDataToSend,
+      const response = await axios.post('https://back-tesis-lovat.vercel.app/arcana/lugares', dataToSend, {
+        headers: {
+          'Content-Type': 'application/json',  
+        },
       });
   
-      if (!response.ok) {
-        const errorResponse = await response.json();
-        setError(errorResponse.msg || 'Error al crear el lugar');
-        throw new Error(errorResponse.msg || 'Error al crear el lugar');
-      }
-  
-      // Si todo sale bien
       setFormData({
         nombre: '',
         descripcion: '',
         ubicacion: '',
         categoria: '',
-        imagen: null,
-        video: null
+        imagen: [],
+        video: ''
       });
       setMensaje('Lugar creado con éxito');
+      sessionStorage.setItem('mensajeConfirmacion', 'Lugar creado correctamente.');
+      navigate('/admin/lugares');
     } catch (error) {
-      setError(error.message || 'Error del servidor');
+      setError(error.response?.data?.msg || 'Error al crear el lugar');
+      
     } finally {
       setCargando(false);
     }
   };
-  
 
   return (
     <div className="formulario-container">
@@ -98,7 +94,7 @@ const AgregarLugar = () => {
 
       <form onSubmit={handleSubmit} className="formulario">
         <div>
-          <label htmlFor="nombre">Nombre</label>
+          <label htmlFor="nombre">nombre</label>
           <input
             type="text"
             id="nombre"
@@ -156,17 +152,6 @@ const AgregarLugar = () => {
             id="imagen"
             name="imagen"
             accept="image/*"
-            onChange={handleChange}
-          />
-        </div>
-
-        <div className="form-group">
-          <label htmlFor="video">Video (opcional)</label>
-          <input
-            type="file"
-            id="video"
-            name="video"
-            accept="video/*"
             onChange={handleChange}
           />
         </div>

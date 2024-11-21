@@ -146,7 +146,6 @@ nav ul {
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 20px auto;
-  max-width: 900px;
 }
 
 /* Encabezado */
@@ -173,7 +172,13 @@ nav ul {
   font-weight: bold;
 }
 
+.cont_boton{
+  display: flex;
+}
 
+.cont_boton button{
+  margin: 10px;
+}
 
 /* Tabla */
 .admin-table {
@@ -185,20 +190,19 @@ nav ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.admin-table th,
-.admin-table td {
+.admin-table th{
+   padding: 12px;
+}
+.admin-table tr {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #ddd;
 }
 
-.admin-table th {
+.admin-table thead {
   background-color: #3C4A28;
   color: white;
-}
-
-.admin-table tr:hover {
-  background-color: #f1f1f1;
+  text-align: center;
 }
 
 /* Imagen de los lugares */
@@ -213,6 +217,38 @@ nav ul {
 .action-buttons {
   display: flex;
   gap: 10px;
+}
+
+tbody td{
+  margin: 10px;
+}
+
+tr{
+  display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tdDescripcion{
+  width: 350px;
+}
+
+.tdNombre{
+  width: 100px;
+}
+
+thead th{
+ text-align: center; 
+}
+
+.tdEmail,
+.tdAcciones{
+  width: 150px;
+}
+
+.tdImagen{
+  width: 130px;
 }
 
 .edit-button {

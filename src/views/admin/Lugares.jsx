@@ -52,11 +52,24 @@ const VistaAdminLugares = () => {
       setMensajeConfirmacion('Error de red al eliminar el lugar');
       console.error('Error al eliminar lugar:', error);
     } finally {
-      setTimeout(() => setMensajeConfirmacion(''), 4000);
+      setTimeout(() => {
+        setMensajeConfirmacion('');
+      }, 4000);
     }
   };
 
   useEffect(() => {
+    const mensajeAgregar = sessionStorage.getItem('mensajeConfirmacionAgregar');
+    const mensajeEditar = sessionStorage.getItem('mensajeConfirmacionEditar');
+  
+    if (mensajeAgregar) {
+      setMensajeConfirmacion(mensajeAgregar);
+      sessionStorage.removeItem('mensajeConfirmacionAgregar');
+    } else if (mensajeEditar) {
+      setMensajeConfirmacion(mensajeEditar);
+      sessionStorage.removeItem('mensajeConfirmacionEditar');
+    }
+  
     getDestinos();
   }, []);
 
@@ -85,11 +98,12 @@ const VistaAdminLugares = () => {
         <table className="admin-table">
           <thead>
             <tr>
-              <th>Imagen</th>
-              <th>Nombre</th>
-              <th>Descripción</th>
+              <th className='tdImagen'>Imagen</th>
+              <th className='tdNombre'>Nombre</th>
+              <th className='tdDescripcion'>Descripción</th>
               <th>Ubicación</th>
-              <th>Acciones</th>
+              <th>Categoría</th>
+              <th className='tdAcciones'>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -102,9 +116,10 @@ const VistaAdminLugares = () => {
                     alt={lugar.nombre}
                   />
                 </td>
-                <td>{lugar.nombre}</td>
-                <td>{lugar.descripcion}</td>
+                <td className='tdNombre'>{lugar.nombre}</td>
+                <td className='tdDescripcion'>{lugar.descripcion}</td>
                 <td>{lugar.ubicacion}</td>
+                <td>{lugar.categoria}</td>
                 <td className="action-buttons">
                   <NavLink to={`/admin/editarLugar/${lugar._id}`} className="edit-button">
                     Editar
@@ -120,5 +135,6 @@ const VistaAdminLugares = () => {
       )}
     </div>
   );
-}  
+}
+
 export default VistaAdminLugares;
