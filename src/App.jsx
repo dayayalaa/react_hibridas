@@ -7,10 +7,10 @@ import Login from './views/Login'
 import Registro from './views/Registro'
 import NotFound from './views/NotFound'
 import VistaAdmin from './views/admin/VistaAdmin'
-import Lugares from './views/admin/Lugares';
-import Usuarios from './views/admin/Usuarios';
-import EditarLugar from './views/admin/EditarLugar';
-import AgregarLugar from './views/admin/AgregarLugar';
+import Lugares from './views/admin/Lugares'
+import Usuarios from './views/admin/Usuarios'
+import EditarLugar from './views/admin/EditarLugar'
+import AgregarLugar from './views/admin/AgregarLugar'
 
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -93,25 +93,27 @@ function App() {
 
       <main>
         <Routes>
-          <Route path="/"                   element={<Home />} />
-          <Route path="/contact"            element={<Contact />} />
-          <Route path="/detalles/:id"       element={<DetallesLugar />} />
-          <Route path="/detallesHotel/:id"  element={<DetallesHotel />} />
-          <Route path="/registro"           element={<Registro />} />
-          <Route path="/login"              element={<Login />} />
-          
-        </Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/detalles/:id" element={<DetallesLugar />} />
+          <Route path="/detallesHotel/:id" element={<DetallesHotel />} />
+          <Route path="/registro" element={<Registro />} />
+          <Route path="/login" element={<Login />} />
 
-        {user?.rols === 'admin' && (
-          <Routes>
-            <Route path="/admin"                  element={<VistaAdmin />} />
-            <Route path="/admin/lugares"          element={<Lugares />} />
-            <Route path="/admin/editarLugar/:id"  element={<EditarLugar />} />
-            <Route path="/admin/agregarLugar"     element={<AgregarLugar />} />
-            <Route path="/admin/usuarios"         element={<Usuarios />} />
-           
-          </Routes>
-        )}
+          {/* Rutas protegidas para admins */}
+          {user?.rols === 'admin' && (
+            <>
+              <Route path="/admin" element={<VistaAdmin />} />
+              <Route path="/admin/lugares" element={<Lugares />} />
+              <Route path="/admin/editarLugar/:id" element={<EditarLugar />} />
+              <Route path="/admin/agregarLugar" element={<AgregarLugar />} />
+              <Route path="/admin/usuarios" element={<Usuarios />} />
+            </>
+          )}
+
+          {/* Error de ruta */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </main>
     </div>
   )

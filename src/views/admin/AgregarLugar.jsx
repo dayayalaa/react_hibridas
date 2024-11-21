@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Cargando from '../../components/Cargando'
 import '../../index.css';
 
 const provinciasArgentinas = [
@@ -181,7 +182,7 @@ const AgregarLugar = () => {
         </div>
 
         <button type="submit" className="boton-submit" disabled={cargando}>
-          {cargando ? 'Cargando...' : 'Agregar Lugar'}
+          {cargando ? <Cargando/> : 'Agregar Lugar'}
         </button>
       </form>
     </div>
