@@ -9,10 +9,10 @@ import Login from './views/Login'
 import Registro from './views/Registro'
 import NotFound from './views/NotFound'
 import VistaAdmin from './views/admin/VistaAdmin'
-import Lugares from './views/admin/Lugares'
-import Usuarios from './views/admin/Usuarios'
-import EditarLugar from './views/admin/EditarLugar'
-import AgregarLugar from './views/admin/AgregarLugar'
+import Lugares from './views/admin/Lugares';
+import Usuarios from './views/admin/Usuarios';
+import EditarLugar from './views/admin/EditarLugar';
+import AgregarLugar from './views/admin/AgregarLugar';
 
 import { Routes, Route, NavLink } from 'react-router-dom'
 import { useState, useEffect } from 'react'
@@ -102,11 +102,7 @@ function App() {
           <Route path="/registro" element={<Registro />} />
           <Route path="/login" element={<Login />} />
 
-<<<<<<< HEAD
 
-=======
-          {/* Rutas protegidas para admins */}
->>>>>>> 85cd082ab6ba22e4f030030ce9c9e60d44bb91ea
           {user?.rols === 'admin' && (
             <>
               <Route path="/admin" element={<VistaAdmin />} />
@@ -116,17 +112,10 @@ function App() {
               <Route path="/admin/usuarios" element={<Usuarios />} />
             </>
           )}
-<<<<<<< HEAD
           
             <Route path="*" element={<NotFound />} />
           </Routes>
         
-=======
-
-          {/* Error de ruta */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
->>>>>>> 85cd082ab6ba22e4f030030ce9c9e60d44bb91ea
       </main>
     </div>
   )

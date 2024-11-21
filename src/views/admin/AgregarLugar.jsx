@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-<<<<<<< HEAD
 import axios from 'axios';
-=======
-import { useNavigate } from 'react-router-dom';
-import Cargando from '../../components/Cargando'
-import '../../index.css';
->>>>>>> 85cd082ab6ba22e4f030030ce9c9e60d44bb91ea
 
 const provinciasArgentinas = [
   'Buenos Aires', 'Córdoba', 'Chubut', 'Neuquén', 'Misiones', 'Mendoza',
@@ -178,11 +172,7 @@ const AgregarLugar = () => {
         </div>
 
         <button type="submit" className="boton-submit" disabled={cargando}>
-<<<<<<< HEAD
           {cargando ? 'Cargando...' : 'Crear Lugar'}
-=======
-          {cargando ? <Cargando/> : 'Agregar Lugar'}
->>>>>>> 85cd082ab6ba22e4f030030ce9c9e60d44bb91ea
         </button>
       </form>
     </div>
