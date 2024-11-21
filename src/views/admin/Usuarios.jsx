@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Cargando from '../../components/Cargando';
 
 const VistaAdminUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -34,7 +35,7 @@ const VistaAdminUsuarios = () => {
     <div>
       <h2>Usuarios</h2>
       {cargandoUsuarios ? (
-        <p>Cargando...</p>
+        <Cargando/>
       ) : errorMensaje ? (
         <p>{errorMensaje}</p>
       ) : usuarios.length === 0 ? (

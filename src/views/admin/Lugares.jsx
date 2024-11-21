@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import Cargando from '../../components/Cargando';
 
 const VistaAdminLugares = () => {
   const [lugares, setLugares] = useState([]);
@@ -60,7 +61,7 @@ const VistaAdminLugares = () => {
   }, []);
 
   if (cargandoDestinos) {
-    return <div className="loading">Cargando...</div>;
+    return <Cargando className="loading"/>  
   }
 
   if (errorMensaje) {
