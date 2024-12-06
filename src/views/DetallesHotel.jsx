@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from "react-router-dom";
+import Cargando from '../components/Cargando'
 
 const DetallesHotel = () => {
   const { id } = useParams(); 
@@ -29,7 +30,7 @@ const DetallesHotel = () => {
   }, [id]);
 
   if (cargando) {
-    return <div>Cargando habitaciones...</div>;
+    return <Cargando/>;
   }
 
   if (error) {

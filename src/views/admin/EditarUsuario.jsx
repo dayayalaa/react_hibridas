@@ -13,9 +13,24 @@ const EditarUsuarios = () => {
   useEffect(() => {
     const fetchUsuario = async () => {
       try {
-        const response = await axios.get(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`);
+        
+        const token = sessionStorage.getItem('token'); 
+
+        if (!token) {
+          setMensaje('No estás autorizado para ver esta página.');
+          return;
+        }
+
+        const response = await axios.get(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`  
+          }
+        });
+
+ 
+        console.log("Respuesta de la API:", response.data); 
+
         if (response.status === 200) {
-          console.log('Usuario cargado:', response.data); 
           setUsuario(response.data);
         } else {
           setMensaje('Error al cargar los datos del usuario.');
@@ -29,7 +44,8 @@ const EditarUsuarios = () => {
     };
   
     fetchUsuario();
-  }, [id]); 
+  }, [id]);
+
   const cambiUsuario = (e) => {
     const { name, value } = e.target;
     setUsuario((prevData) => ({
@@ -42,7 +58,21 @@ const EditarUsuarios = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.put(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`, usuario);
+
+      const token = sessionStorage.getItem('token');
+
+      if (!token) {
+        setMensaje('No estás autorizado para actualizar este usuario.');
+        return;
+      }
+
+    
+      const response = await axios.put(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`, usuario, {
+        headers: {
+          'Authorization': `Bearer ${token}` 
+        }
+      });
+
       if (response.status === 200) {
         sessionStorage.setItem('mensajeConfirmacion', 'Usuario actualizado correctamente.');
         navigate('/admin/usuarios');
@@ -59,12 +89,9 @@ const EditarUsuarios = () => {
     return <p>Cargando usuario...</p>;
   }
 
-
   if (!usuario) {
     return <p>No se pudo cargar el usuario.</p>;
   }
-
-  console.log('usuario:', usuario); 
 
   return (
     <div className="formulario-container">

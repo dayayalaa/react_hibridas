@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import Cargando from '../../components/Cargando';
 
 const VistaAdminUsuarios = () => {
@@ -7,31 +7,43 @@ const VistaAdminUsuarios = () => {
   const [errorMensaje, setErrorMensaje] = useState('');
   const [cargandoUsuarios, setCargandoUsuarios] = useState(true);
   const [mensajeConfirmacion, setMensajeConfirmacion] = useState('');
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     const fetchUsuarios = async () => {
+      setCargandoUsuarios(true);
+      setErrorMensaje('');
+
       try {
+        const token = localStorage.getItem('token'); 
+        if (!token) throw new Error('No se pasó el JWT'); 
+
         const response = await fetch('https://back-tesis-lovat.vercel.app/arcana/usuarios', {
           method: 'GET',
           headers: {
-            'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
           },
-        });
+      });
+      
 
         const data = await response.json();
         if (!response.ok) throw new Error(data.message || 'Error al obtener usuarios');
 
-        setUsuarios(data.data || []); 
+        setUsuarios(data.data || []);
       } catch (error) {
         setErrorMensaje(error.message || 'Error al obtener usuarios.');
         console.error('Error:', error.message);
+        if (error.message === 'No se pasó el JWT') {
+          navigate('/login'); 
+        }
       } finally {
         setCargandoUsuarios(false);
       }
     };
 
     fetchUsuarios();
-  }, []);
+  }, [navigate]);
 
   const handleEliminar = async (id) => {
     if (!id) {
@@ -95,7 +107,7 @@ const VistaAdminUsuarios = () => {
                 <td className="tdEmail">{usuario.email}</td>
                 <td>{usuario.rols}</td>
                 <td className="action-buttons">
-                <NavLink to={`/admin/editarUsuario/${usuario._id}`} className="edit-button">
+                  <NavLink to={`/admin/editarUsuario/${usuario._id}`} className="edit-button">
                     Editar
                   </NavLink>
                   <button

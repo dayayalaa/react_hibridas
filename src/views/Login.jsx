@@ -44,17 +44,19 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(data.msg || 'Error al iniciar sesión');
       }
-
+      
       console.log('Inicio de sesión exitoso:', data);
+      localStorage.setItem('token', data.token); 
       localStorage.setItem('user', JSON.stringify(data.user));
-
+      
       if (data.user.rols === 'admin') {
-        navigate('/admin'); 
+        navigate('/admin');
         window.location.reload();
       } else {
-        navigate('/'); 
+        navigate('/');
         window.location.reload();
       }
+      
     } catch (error) {
       console.error('Error:', error.message);
       setError(error.message);
@@ -76,6 +78,7 @@ const Login = () => {
           value={formData.email}
           className="login-input"
           required
+          autoComplete="email" 
         />
         
         <label htmlFor="contrasenia" className="login-label">Contraseña</label>
@@ -86,6 +89,7 @@ const Login = () => {
           value={formData.contrasenia}
           className="login-input"
           required
+          autoComplete="current-password" 
         />
 
         <button type="submit" className="login-button" disabled={loading}>
