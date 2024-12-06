@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { NavLink } from "react-router-dom";
 import CardHotel from '../components/CardHotel';  
 import CardDestino from '../components/CardDetino'; 
 import Session from '../components/session';
@@ -64,7 +63,7 @@ const Home = () => {
   const getCategoria = async (categoria) => {
     if (!categoria) return; 
     try {
-      const resp = await fetch(`https://back-tesis-lovat.vercel.app/arcana/lugares/categoria/${categoria}`);
+      // const resp = await fetch(`https://back-tesis-lovat.vercel.app/arcana/lugares/categoria/${categoria}`);
       const data = await resp.json();
       if (categoria === 'Popular') {
         setDestinosPopulares(data.data || []); 
