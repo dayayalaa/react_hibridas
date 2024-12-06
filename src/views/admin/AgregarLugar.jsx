@@ -76,7 +76,7 @@ const AgregarLugar = () => {
         video: ''
       });
       setMensaje('Lugar creado con éxito');
-      sessionStorage.setItem('mensajeConfirmacion', 'Lugar creado correctamente.');
+      localStorage.setItem('mensajeConfirmacion', 'Lugar creado correctamente.');
       navigate('/admin/lugares');
     } catch (error) {
       setError(error.response?.data?.msg || 'Error al crear el lugar');

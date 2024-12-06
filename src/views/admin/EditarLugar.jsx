@@ -51,7 +51,7 @@ const EditarLugar = () => {
         );
 
         if (response.status === 200) {
-          const data = response.data;
+          const data = response.data.data;
           setLugar({
             nombre: data.nombre || '',
             descripcion: data.descripcion || '',
@@ -105,7 +105,7 @@ const EditarLugar = () => {
       );
 
       if (response.status === 200) {
-        sessionStorage.setItem("mensajeConfirmacion", "Lugar actualizado correctamente.");
+        localStorage.setItem("mensajeConfirmacion", "Lugar actualizado correctamente.");
         navigate("/admin/lugares");
       } else {
         setMensaje(response.data.msg || "Error al actualizar el lugar.");

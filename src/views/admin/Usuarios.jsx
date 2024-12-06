@@ -10,6 +10,12 @@ const VistaAdminUsuarios = () => {
   const navigate = useNavigate(); 
 
   useEffect(() => {
+    const mensaje = localStorage.getItem('mensajeConfirmacion');
+    if (mensaje) {
+      setMensajeConfirmacion(mensaje);
+      localStorage.removeItem('mensajeConfirmacion'); 
+    }
+
     const fetchUsuarios = async () => {
       setCargandoUsuarios(true);
       setErrorMensaje('');
@@ -55,8 +61,13 @@ const VistaAdminUsuarios = () => {
     if (!confirmacion) return;
 
     try {
+      const token = localStorage.getItem('token');
+
       const response = await fetch(`https://back-tesis-lovat.vercel.app/arcana/usuarios/${id}`, {
         method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`  
+        }
       });
 
       const data = await response.json();
@@ -96,7 +107,7 @@ const VistaAdminUsuarios = () => {
             <tr>
               <th className="tdNombre">Nombre</th>
               <th className="tdEmail">Email</th>
-              <th>Rol</th>
+              <th className="tdRol">Rol</th>
               <th className="tdAcciones">Acciones</th>
             </tr>
           </thead>
@@ -105,7 +116,7 @@ const VistaAdminUsuarios = () => {
               <tr key={index}>
                 <td className="tdNombre">{usuario.nombre}</td>
                 <td className="tdEmail">{usuario.email}</td>
-                <td>{usuario.rols}</td>
+                <td className="tdRol">{usuario.rols}</td>
                 <td className="action-buttons">
                   <NavLink to={`/admin/editarUsuario/${usuario._id}`} className="edit-button">
                     Editar

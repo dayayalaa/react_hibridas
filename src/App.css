@@ -275,10 +275,11 @@ thead th{
 
 .tdEmail,
 .tdAcciones{
-  width: 150px;
+  width: 250px;
 }
 
-.tdImagen{
+.tdImagen,
+.tdRol{
   width: 130px;
 }
 

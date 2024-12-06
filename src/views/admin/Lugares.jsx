@@ -59,15 +59,11 @@ const VistaAdminLugares = () => {
   };
 
   useEffect(() => {
-    const mensajeAgregar = sessionStorage.getItem('mensajeConfirmacionAgregar');
-    const mensajeEditar = sessionStorage.getItem('mensajeConfirmacionEditar');
-  
+    const mensajeAgregar = localStorage.getItem('mensajeConfirmacion');
+    
     if (mensajeAgregar) {
       setMensajeConfirmacion(mensajeAgregar);
-      sessionStorage.removeItem('mensajeConfirmacionAgregar');
-    } else if (mensajeEditar) {
-      setMensajeConfirmacion(mensajeEditar);
-      sessionStorage.removeItem('mensajeConfirmacionEditar');
+      localStorage.removeItem('mensajeConfirmacion'); 
     }
   
     getDestinos();

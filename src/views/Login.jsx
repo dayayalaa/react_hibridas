@@ -1,31 +1,46 @@
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: '', contrasenia: '' });
-  const [error, setError] = useState('');
+  const [errors, setErrors] = useState({ email: '', contrasenia: '' });
+  const [backendError, setBackendError] = useState(''); 
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
+    setErrors({ ...errors, [name]: '' }); 
+    setBackendError('');
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setBackendError('');
 
-    if (!formData.email || !formData.contrasenia) {
-      setError('Por favor, ingresa tanto el correo electrónico como la contraseña');
-      setLoading(false);
-      return;
+    let valid = true;
+    const newErrors = { email: '', contrasenia: '' }; 
+
+    if (!formData.email) {
+      newErrors.email = 'Por favor ingresa un correo electrónico';
+      valid = false;
+    }
+
+    if (!formData.contrasenia) {
+      newErrors.contrasenia = 'Por favor ingresa una contraseña';
+      valid = false;
     }
 
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!emailPattern.test(formData.email)) {
-      setError('Por favor ingresa un correo electrónico válido');
+    if (formData.email && !emailPattern.test(formData.email)) {
+      newErrors.email = 'Por favor ingresa un correo electrónico válido';
+      valid = false;
+    }
+
+    if (!valid) {
+      setErrors(newErrors); 
       setLoading(false);
       return;
     }
@@ -44,7 +59,7 @@ const Login = () => {
       if (!response.ok) {
         throw new Error(data.msg || 'Error al iniciar sesión');
       }
-      
+
       console.log('Inicio de sesión exitoso:', data);
       localStorage.setItem('token', data.token); 
       localStorage.setItem('user', JSON.stringify(data.user));
@@ -59,7 +74,7 @@ const Login = () => {
       
     } catch (error) {
       console.error('Error:', error.message);
-      setError(error.message);
+      setBackendError(error.message);
     } finally {
       setLoading(false);
     }
@@ -68,7 +83,7 @@ const Login = () => {
   return (
     <div className="login-container">
       <h2 className="login-title">Iniciar sesión</h2>
-      {error && <p className="error-message">{error}</p>}
+      {backendError && <p className="error-message">{backendError}</p>} 
       <form onSubmit={handleSubmit} className="login-form">
         <label htmlFor="email" className="login-label">Email</label>
         <input
@@ -77,9 +92,9 @@ const Login = () => {
           onChange={handleChange}
           value={formData.email}
           className="login-input"
-          required
-          autoComplete="email" 
+          autoComplete="email"
         />
+        {errors.email && <p className="error-message">{errors.email}</p>} 
         
         <label htmlFor="contrasenia" className="login-label">Contraseña</label>
         <input
@@ -88,9 +103,9 @@ const Login = () => {
           onChange={handleChange}
           value={formData.contrasenia}
           className="login-input"
-          required
-          autoComplete="current-password" 
+          autoComplete="current-password"
         />
+        {errors.contrasenia && <p className="error-message">{errors.contrasenia}</p>} 
 
         <button type="submit" className="login-button" disabled={loading}>
           {loading ? 'Cargando...' : 'Iniciar sesión'}

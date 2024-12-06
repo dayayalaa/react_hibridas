@@ -6,7 +6,12 @@ const EditarUsuarios = () => {
   const { id } = useParams(); 
   const navigate = useNavigate();
 
-  const [usuario, setUsuario] = useState(null);
+  const [usuario, setUsuario] = useState({
+    nombre: '',
+    email: '',
+    rols: ''
+  });
+  
   const [mensaje, setMensaje] = useState('');
   const [loading, setLoading] = useState(true); 
 
@@ -14,7 +19,7 @@ const EditarUsuarios = () => {
     const fetchUsuario = async () => {
       try {
         
-        const token = sessionStorage.getItem('token'); 
+        const token = localStorage.getItem('token'); 
 
         if (!token) {
           setMensaje('No estás autorizado para ver esta página.');
@@ -31,7 +36,7 @@ const EditarUsuarios = () => {
         console.log("Respuesta de la API:", response.data); 
 
         if (response.status === 200) {
-          setUsuario(response.data);
+          setUsuario(response.data.data);
         } else {
           setMensaje('Error al cargar los datos del usuario.');
         }
@@ -45,7 +50,7 @@ const EditarUsuarios = () => {
   
     fetchUsuario();
   }, [id]);
-
+  
   const cambiUsuario = (e) => {
     const { name, value } = e.target;
     setUsuario((prevData) => ({
@@ -59,7 +64,7 @@ const EditarUsuarios = () => {
 
     try {
 
-      const token = sessionStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
       if (!token) {
         setMensaje('No estás autorizado para actualizar este usuario.');
@@ -74,7 +79,7 @@ const EditarUsuarios = () => {
       });
 
       if (response.status === 200) {
-        sessionStorage.setItem('mensajeConfirmacion', 'Usuario actualizado correctamente.');
+        localStorage.setItem('mensajeConfirmacion', 'Usuario actualizado correctamente.');
         navigate('/admin/usuarios');
       } else {
         setMensaje(response.data.msg || 'Error al actualizar el usuario.');
