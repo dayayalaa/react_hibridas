@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from "react-router-dom"; 
-
+import '../App.css';
 
 const TarjetaDestino = ({ destino }) => {
   const descripcionLimitada = destino.descripcion.length > 100 ? destino.descripcion.slice(0, 100) + "..." : destino.descripcion;
