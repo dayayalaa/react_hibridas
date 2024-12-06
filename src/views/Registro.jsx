@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Registro = () => {
   const [formData, setFormData] = useState({ nombre: '', email: '', contrasenia: '' });
   const [errors, setErrors] = useState({ nombre: '', email: '', contrasenia: '' });
   const [loading, setLoading] = useState(false);
   const [backendError, setBackendError] = useState(''); 
+  const navigate = useNavigate();
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -73,6 +75,7 @@ const Registro = () => {
         localStorage.setItem('token', data.token);
         alert('Registro exitoso. Por favor, inicia sesión.');
         setFormData({ nombre: '', email: '', contrasenia: '' });
+        navigate("/login");
       }
     } catch (error) {
       console.error('Error del servidor:', error.message);
